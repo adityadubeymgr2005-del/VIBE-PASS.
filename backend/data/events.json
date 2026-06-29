@@ -1,0 +1,32 @@
+[
+  {
+    "_id": "756058a3-c06e-4e82-80c2-505a0f69d50d",
+    "createdAt": "2026-06-28T19:52:55.376Z",
+    "updatedAt": "2026-06-29T02:06:45.695Z",
+    "title": "Cosmic Techno Night",
+    "description": "Experience an interstellar journey with deep synth beats, spectacular lasers, and an immersive soundscape by top celestial DJs.",
+    "date": "2026-08-15",
+    "time": "9:00 PM",
+    "venue": "Nebula Club, Mumbai",
+    "ticketPrice": 45,
+    "seatCapacity": 150,
+    "seatsAvailable": 147,
+    "bannerUrl": "",
+    "organizer": "971a205c-795f-443e-ad62-4cad83614569"
+  },
+  {
+    "_id": "36b93fa2-5692-4dab-8e63-502b7b4ba4c5",
+    "createdAt": "2026-06-28T19:52:55.378Z",
+    "updatedAt": "2026-06-29T14:16:18.427Z",
+    "title": "React Developer Summit 2026",
+    "description": "The ultimate gathering of front-end engineers. Join workshops on state machines, Next.js architecture, and React compiler internals.",
+    "date": "2026-09-10",
+    "time": "9:00 AM",
+    "venue": "Tech Plaza Center, Bengaluru",
+    "ticketPrice": 199,
+    "seatCapacity": 500,
+    "seatsAvailable": 499,
+    "bannerUrl": "",
+    "organizer": "971a205c-795f-443e-ad62-4cad83614569"
+  }
+]

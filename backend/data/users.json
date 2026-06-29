@@ -1,0 +1,83 @@
+[
+  {
+    "_id": "971a205c-795f-443e-ad62-4cad83614569",
+    "createdAt": "2026-06-28T19:52:55.357Z",
+    "updatedAt": "2026-06-29T02:10:56.156Z",
+    "name": "Sarah Connor",
+    "email": "organizer@test.com",
+    "password": "$2a$10$913Y//nAnACz4T7akhhOouMBQ.mJRZ5Ptd16hJvE/DSMdCqitqfdm",
+    "role": "organizer"
+  },
+  {
+    "_id": "b354672e-7366-4e59-807e-1d311b9b58ea",
+    "createdAt": "2026-06-28T19:52:55.372Z",
+    "updatedAt": "2026-06-28T19:52:55.372Z",
+    "name": "John Doe",
+    "email": "attendee@test.com",
+    "password": "$2a$10$913Y//nAnACz4T7akhhOouMBQ.mJRZ5Ptd16hJvE/DSMdCqitqfdm",
+    "role": "user"
+  },
+  {
+    "_id": "e4c03e76-c668-4073-b491-1b55a9847afd",
+    "createdAt": "2026-06-28T19:52:55.374Z",
+    "updatedAt": "2026-06-28T19:52:55.374Z",
+    "name": "System Admin",
+    "email": "admin@test.com",
+    "password": "$2a$10$913Y//nAnACz4T7akhhOouMBQ.mJRZ5Ptd16hJvE/DSMdCqitqfdm",
+    "role": "admin"
+  },
+  {
+    "_id": "6967eba1-6586-4d6b-b08e-5341316f1670",
+    "createdAt": "2026-06-29T01:41:43.867Z",
+    "updatedAt": "2026-06-29T01:41:43.867Z",
+    "name": "rahul",
+    "email": "rsrf15@gmail.com",
+    "password": "$2a$10$NRFAOqytO2hF69uIfH3bw.pP4TYdeBZZ2DvqksGY5/Hzw/4zw1Tni",
+    "role": "organizer"
+  },
+  {
+    "_id": "d09bb655-7abc-44ca-91e3-acfcc0c93b4f",
+    "createdAt": "2026-06-29T02:04:50.480Z",
+    "updatedAt": "2026-06-29T02:04:50.481Z",
+    "name": "rahul",
+    "email": "rahu35@gmail.com",
+    "password": "$2a$10$IHvQ1sXdVengX44P86YKbuXtvaYKTlp24tWb1mXrvtWXXywJ7ocsm",
+    "role": "user"
+  },
+  {
+    "_id": "512e9d0a-4c75-4996-82a7-27a062b16a44",
+    "createdAt": "2026-06-29T02:09:01.390Z",
+    "updatedAt": "2026-06-29T14:21:32.644Z",
+    "name": "raus",
+    "email": "rar@gmail.com",
+    "password": "$2a$10$lTUr8Kvk1fXYihcNPzD5aOlD/toGuckBu8A2Yp3Xphnms2AAB989W",
+    "role": "user"
+  },
+  {
+    "_id": "f65a918c-b6fe-47cb-8d5f-13549fde71e1",
+    "createdAt": "2026-06-29T09:39:36.098Z",
+    "updatedAt": "2026-06-29T09:39:36.098Z",
+    "name": "Alok",
+    "email": "alok.rajak6639@gmail.com",
+    "password": "$2a$10$jp74b7Mkjub5j/N5CqdZwOgYg0aPRNuZexoqna4oxR0e22gTIrnk.",
+    "role": "admin"
+  },
+  {
+    "_id": "f32e3a1f-978a-4408-aa0d-07d05aad58be",
+    "createdAt": "2026-06-29T14:15:50.347Z",
+    "updatedAt": "2026-06-29T14:15:50.348Z",
+    "name": "niraj ",
+    "email": "adityadubeymgr2005@gmail.com",
+    "password": "$2a$10$jdT2mLxlNONgV40CuS1V5ef7RfDBf97yXwXT502ZzF/GfIZm7HpSm",
+    "role": "user"
+  },
+  {
+    "_id": "0708ea7c-e085-4020-a4b2-cf1d5cac13b5",
+    "createdAt": "2026-06-29T14:17:41.832Z",
+    "updatedAt": "2026-06-29T14:17:41.832Z",
+    "name": "niraj",
+    "email": "admin@gmail.com",
+    "password": "$2a$10$TyxRyIFWCVsQv6ICzjljAOu4r0f3KraAhMPAIEZ6BQc.Eiu9TDtOK",
+    "role": "admin"
+  }
+]
