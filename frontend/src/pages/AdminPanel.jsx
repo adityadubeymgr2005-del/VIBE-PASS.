@@ -17,6 +17,7 @@ export default function AdminPanel() {
       setError(null);
       
       const token = localStorage.getItem('token');
+      if (!token) throw new Error('Authentication token missing');
       
       // Fetch users
       const usersRes = await fetch('http://localhost:5000/api/auth/users', {

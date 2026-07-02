@@ -9,6 +9,7 @@ import MyBookings from './pages/MyBookings';
 import Dashboard from './pages/Dashboard';
 import ScannerPage from './pages/ScannerPage';
 import AdminPanel from './pages/AdminPanel';
+import PaymentSuccess from './pages/PaymentSuccess';
 
 // Import Components
 import Navbar from './components/Navbar';
@@ -22,7 +23,7 @@ export default function App() {
     // Read user from localStorage on boot
     const storedUser = localStorage.getItem('user');
     const token = localStorage.getItem('token');
-    
+
     if (storedUser && token) {
       try {
         setUser(JSON.parse(storedUser));
@@ -30,6 +31,9 @@ export default function App() {
         localStorage.removeItem('user');
         localStorage.removeItem('token');
       }
+    } else {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
     }
     setInitialized(true);
   }, []);
@@ -37,6 +41,9 @@ export default function App() {
   const handleLoginSuccess = (userData) => {
     setUser(userData);
   };
+
+  const token = localStorage.getItem('token');
+  const isAuthenticated = Boolean(user && token);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -54,13 +61,13 @@ export default function App() {
 
   // --- ROUTE GUARDS ---
   const UserRoute = ({ children }) => {
-    if (!user) return <Navigate to="/login" replace />;
+    if (!isAuthenticated) return <Navigate to="/login" replace />;
     if (user.role !== 'user') return <Navigate to="/dashboard" replace />;
     return children;
   };
 
   const OrganizerRoute = ({ children }) => {
-    if (!user) return <Navigate to="/login" replace />;
+    if (!isAuthenticated) return <Navigate to="/login" replace />;
     if (user.role !== 'organizer' && user.role !== 'admin') {
       return <Navigate to="/" replace />;
     }
@@ -68,7 +75,7 @@ export default function App() {
   };
 
   const AdminRoute = ({ children }) => {
-    if (!user) return <Navigate to="/login" replace />;
+    if (!isAuthenticated) return <Navigate to="/login" replace />;
     if (user.role !== 'admin') return <Navigate to="/dashboard" replace />;
     return children;
   };
@@ -115,6 +122,9 @@ export default function App() {
                 <ScannerPage />
               </OrganizerRoute>
             } />
+
+            {/* Payment Confirmation */}
+            <Route path="/payment-success" element={<PaymentSuccess />} />
 
             {/* Admin Exclusive Access */}
             <Route path="/admin" element={

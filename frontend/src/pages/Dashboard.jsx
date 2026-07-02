@@ -31,9 +31,11 @@ export default function Dashboard({ user }) {
     try {
       setLoading(true);
       setError(null);
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('Authentication token missing');
       const res = await fetch('http://localhost:5000/api/analytics', {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${token}`
         }
       });
       if (!res.ok) throw new Error('Failed to retrieve analytical summary');
@@ -61,14 +63,14 @@ export default function Dashboard({ user }) {
   };
 
   const handleOpenEditModal = (event) => {
-    setEditingEventId(event.id);
+    setEditingEventId(event.id || event._id || null);
     setTitle(event.title);
     setDescription(event.description || '');
     setDate(event.date);
     setTime(event.time);
     setVenue(event.venue);
-    setTicketPrice(event.ticketPrice.toString());
-    setSeatCapacity(event.seatCapacity.toString());
+    setTicketPrice(event.ticketPrice?.toString() || '0');
+    setSeatCapacity(event.seatCapacity?.toString() || '100');
     setBannerFile(null); // reset file upload input
     setIsBuilderOpen(true);
   };
@@ -129,6 +131,14 @@ export default function Dashboard({ user }) {
 
       if (res.ok) {
         setIsBuilderOpen(false);
+        setTitle('');
+        setDescription('');
+        setDate('');
+        setTime('');
+        setVenue('');
+        setTicketPrice('0');
+        setSeatCapacity('100');
+        setBannerFile(null);
         fetchAnalytics();
       } else {
         const data = await res.json();
@@ -171,7 +181,7 @@ export default function Dashboard({ user }) {
           <h2>Organizer Analytics</h2>
           <p className="welcome-subtext">Manage your events, analyze registrations, and view performance insights.</p>
         </div>
-        <button onClick={handleOpenCreateModal} className="btn btn-primary">
+        <button type="button" onClick={handleOpenCreateModal} className="btn btn-primary">
           <Plus size={16} />
           <span>Create New Event</span>
         </button>
@@ -264,7 +274,7 @@ export default function Dashboard({ user }) {
                     : 'N/A';
                     
                   return (
-                    <tr key={item.id}>
+                    <tr key={item.id || item._id}>
                       <td className="table-title-cell">{item.title}</td>
                       <td>
                         <div className="table-time-cell">
@@ -293,6 +303,7 @@ export default function Dashboard({ user }) {
                       <td>
                         <div className="table-actions-cell">
                           <button 
+                            type="button"
                             onClick={() => handleOpenEditModal(item)}
                             className="action-btn edit-btn" 
                             title="Edit Event"
@@ -300,7 +311,8 @@ export default function Dashboard({ user }) {
                             <Edit3 size={16} />
                           </button>
                           <button 
-                            onClick={() => handleDeleteEvent(item.id)}
+                            type="button"
+                            onClick={() => handleDeleteEvent(item.id || item._id)}
                             className="action-btn delete-btn" 
                             title="Delete Event"
                           >
@@ -323,7 +335,7 @@ export default function Dashboard({ user }) {
           <div className="modal-content glass-panel builder-modal-box">
             <div className="builder-modal-header">
               <h3>{editingEventId ? 'Modify Event Details' : 'Create Event Listing'}</h3>
-              <button onClick={() => setIsBuilderOpen(false)} className="close-builder-btn">
+              <button type="button" onClick={() => setIsBuilderOpen(false)} className="close-builder-btn">
                 <X size={20} />
               </button>
             </div>
@@ -643,6 +655,82 @@ export default function Dashboard({ user }) {
           border-color: var(--secondary);
           color: var(--secondary);
           background: rgba(0, 245, 212, 0.02);
+        }
+
+        .modal-overlay {
+          position: fixed;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 1000;
+          padding: 1.5rem;
+          overflow-y: auto;
+        }
+
+        .modal-content {
+          width: 100%;
+          max-width: 680px;
+          background: rgba(16, 18, 34, 0.96);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+          border-radius: 24px;
+          padding: 1.5rem;
+        }
+
+        .builder-form {
+          display: grid;
+          gap: 1rem;
+        }
+
+        .form-group {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .form-row {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 1rem;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+          width: 100%;
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          color: #fff;
+          border-radius: 14px;
+          padding: 0.95rem 1rem;
+          font-size: 0.95rem;
+          outline: none;
+          transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+          border-color: rgba(0, 245, 212, 0.5);
+          box-shadow: 0 0 0 4px rgba(0, 245, 212, 0.08);
+        }
+
+        .form-textarea {
+          min-height: 140px;
+          resize: vertical;
+        }
+
+        .btn-full {
+          width: 100%;
+          padding: 0.95rem 1.25rem;
+          border-radius: 14px;
+        }
+
+        .spinner-icon-inline {
+          margin-right: 0.5rem;
+          animation: spin 1s linear infinite;
         }
 
         .dashboard-loading {

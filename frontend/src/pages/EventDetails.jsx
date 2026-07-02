@@ -61,6 +61,7 @@ export default function EventDetails({ user }) {
   };
 
   const handlePaymentSuccess = async (paymentDetails) => {
+    // This is still called for fallback payment methods.
     setIsPaymentOpen(false);
     setLoading(true);
 
@@ -261,6 +262,8 @@ export default function EventDetails({ user }) {
         isOpen={isPaymentOpen}
         onClose={() => setIsPaymentOpen(false)}
         amount={totalPrice}
+        eventId={event._id}
+        ticketQuantity={ticketQuantity}
         onPaymentSuccess={handlePaymentSuccess}
       />
 

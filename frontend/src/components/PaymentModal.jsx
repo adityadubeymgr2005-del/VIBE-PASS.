@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { CreditCard, Wallet, Smartphone, Landmark, CheckCircle, Loader2 } from 'lucide-react';
 
-export default function PaymentModal({ isOpen, onClose, amount, onPaymentSuccess }) {
+export default function PaymentModal({ isOpen, onClose, amount, eventId, ticketQuantity, onPaymentSuccess }) {
   if (!isOpen) return null;
 
-  const [paymentMethod, setPaymentMethod] = useState('upi'); // upi, card, netbanking
+  const [paymentMethod, setPaymentMethod] = useState('card'); // upi, card, netbanking
   const [processing, setProcessing] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [paymentError, setPaymentError] = useState('');
 
   // Form states
   const [cardNo, setCardNo] = useState('');
@@ -15,16 +16,44 @@ export default function PaymentModal({ isOpen, onClose, amount, onPaymentSuccess
   const [upiId, setUpiId] = useState('');
   const [bank, setBank] = useState('chase');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleStripeCheckout = async () => {
     setProcessing(true);
+    setPaymentError('');
 
-    // Simulate payment API delay
+    try {
+      const res = await fetch('http://localhost:5000/api/payments/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({ eventId, ticketQuantity })
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || 'Could not create checkout session');
+      }
+      window.location.href = data.url;
+    } catch (err) {
+      console.error(err);
+      setPaymentError(err.message || 'Unable to start Stripe checkout.');
+      setProcessing(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (paymentMethod === 'card') {
+      return handleStripeCheckout();
+    }
+
+    setProcessing(true);
+    setPaymentError('');
+
     setTimeout(() => {
       setProcessing(false);
       setSuccess(true);
-      
-      // Complete after success animation
       setTimeout(() => {
         onPaymentSuccess({
           method: paymentMethod,
@@ -187,10 +216,11 @@ export default function PaymentModal({ isOpen, onClose, amount, onPaymentSuccess
                 </div>
               )}
 
-              <button type="submit" className="btn btn-primary btn-full btn-checkout-submit">
-                Pay ₹{amount.toFixed(2)}
+              <button type="submit" className="btn btn-primary btn-full btn-checkout-submit" disabled={processing}>
+                {paymentMethod === 'card' ? `Pay with Card ₹${amount.toFixed(2)}` : `Pay ₹${amount.toFixed(2)}`}
               </button>
             </form>
+            {paymentError && <p className="payment-error">{paymentError}</p>}
           </>
         )}
       </div>
@@ -410,6 +440,13 @@ export default function PaymentModal({ isOpen, onClose, amount, onPaymentSuccess
         @keyframes scalePulse {
           0% { transform: scale(0.6); opacity: 0; }
           100% { transform: scale(1); opacity: 1; }
+        }
+
+        .payment-error {
+          margin-top: 1rem;
+          color: var(--danger);
+          font-size: 0.95rem;
+          text-align: center;
         }
 
         .success-check-icon {
