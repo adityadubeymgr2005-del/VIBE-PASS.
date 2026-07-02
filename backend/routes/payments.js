@@ -46,8 +46,9 @@ router.post('/create-checkout-session', authenticateToken, async (req, res) => {
     }
 
     const totalAmount = Math.round(event.ticketPrice * quantity * 100);
-    const successUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/payment-success?session_id={CHECKOUT_SESSION_ID}`;
-    const cancelUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/events/${eventId}`;
+    const frontendUrl = process.env.FRONTEND_URL || req.headers.origin || `${req.protocol}://${req.get('host')}`;
+    const successUrl = `${frontendUrl}/payment-success?session_id={CHECKOUT_SESSION_ID}`;
+    const cancelUrl = `${frontendUrl}/events/${eventId}`;
 
     const stripe = getStripe();
     const session = await stripe.checkout.sessions.create({

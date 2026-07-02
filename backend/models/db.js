@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-const useMongo = !!process.env.MONGO_URI;
+const useMongo = !!(process.env.MONGODB_URI || process.env.MONGO_URI);
 let dbType = 'JSON_DB';
 
 // --- MOCK DATABASE IMPLEMENTATION (fallback) ---
@@ -181,7 +181,7 @@ let User, Event, Ticket;
 
 if (useMongo) {
   try {
-    mongoose.connect(process.env.MONGO_URI)
+    mongoose.connect(process.env.MONGODB_URI || process.env.MONGO_URI)
       .then(() => {
         console.log('MongoDB connected successfully');
         dbType = 'MONGODB';
@@ -236,7 +236,7 @@ if (useMongo) {
     setupFallbackModels();
   }
 } else {
-  console.log('No MONGO_URI detected, running with Local JSON DB');
+  console.log('No MONGODB_URI detected, running with Local JSON DB');
   setupFallbackModels();
 }
 

@@ -30,6 +30,11 @@ app.use('/api/payments', require('./routes/payments.js'));
 app.use('/api/checkin', require('./routes/checkin.js'));
 app.use('/api/analytics', require('./routes/analytics.js'));
 
+// Root route for deployment health check
+app.get('/', (req, res) => {
+  res.send('Vibe Pass Backend is Running 🚀');
+});
+
 // Default API route check
 app.get('/api/status', (req, res) => {
   const db = require('./models/db');
@@ -52,6 +57,6 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`=================================================`);
   console.log(`Event Management Backend running on port ${PORT}`);
-  console.log(`API check endpoint: http://localhost:${PORT}/api/status`);
+  console.log(`API check endpoint: /api/status`);
   console.log(`=================================================`);
 });
