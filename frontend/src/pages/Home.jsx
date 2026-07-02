@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Flame, Sparkles, Filter, AlertCircle } from 'lucide-react';
 import EventCard from '../components/EventCard';
+import { apiUrl } from '../api';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ export default function Home() {
   const fetchEvents = async () => {
     try {
       setLoading(true);
-      const res = await fetch('http://localhost:5000/api/events');
+      const res = await fetch(apiUrl('/api/events'));
       if (!res.ok) throw new Error('Failed to load events data');
       const data = await res.ok ? await res.json() : [];
       setEvents(data);

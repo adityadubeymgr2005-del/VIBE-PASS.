@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ShieldAlert, Users, Ticket, IndianRupee, Trash2, ArrowUpRight, ShieldCheck, RefreshCw } from 'lucide-react';
+import { apiUrl } from '../api';
 
 export default function AdminPanel() {
   const [usersList, setUsersList] = useState([]);
@@ -20,7 +21,7 @@ export default function AdminPanel() {
       if (!token) throw new Error('Authentication token missing');
       
       // Fetch users
-      const usersRes = await fetch('http://localhost:5000/api/auth/users', {
+      const usersRes = await fetch(apiUrl('/api/auth/users'), {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (!usersRes.ok) throw new Error('Failed to load platform users list');
@@ -28,7 +29,7 @@ export default function AdminPanel() {
       setUsersList(usersData);
 
       // Fetch global platform KPIs
-      const kpisRes = await fetch('http://localhost:5000/api/analytics', {
+      const kpisRes = await fetch(apiUrl('/api/analytics'), {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (kpisRes.ok) {
@@ -49,7 +50,7 @@ export default function AdminPanel() {
 
   const handleUpdateRole = async (userId, newRole) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/auth/users/${userId}/role`, {
+      const res = await fetch(apiUrl(`/api/auth/users/${userId}/role`), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +75,7 @@ export default function AdminPanel() {
     if (!window.confirm('Warning: Deleting this user will remove all their credentials and associated data. Proceed?')) return;
     
     try {
-      const res = await fetch(`http://localhost:5000/api/auth/users/${userId}`, {
+      const res = await fetch(apiUrl(`/api/auth/users/${userId}`), {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`

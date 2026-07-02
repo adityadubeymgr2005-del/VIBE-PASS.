@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { LayoutDashboard, Users, IndianRupee, Calendar, Ticket, Plus, Trash2, Edit3, X, Image, Loader2, ArrowUpRight } from 'lucide-react';
 import DashboardChart from '../components/DashboardChart';
+import { apiUrl } from '../api';
 
 export default function Dashboard({ user }) {
   const [analytics, setAnalytics] = useState(null);
@@ -33,7 +34,7 @@ export default function Dashboard({ user }) {
       setError(null);
       const token = localStorage.getItem('token');
       if (!token) throw new Error('Authentication token missing');
-      const res = await fetch('http://localhost:5000/api/analytics', {
+      const res = await fetch(apiUrl('/api/analytics'), {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -79,7 +80,7 @@ export default function Dashboard({ user }) {
     if (!window.confirm('Are you absolutely sure you want to delete this event? This will erase all tickets and bookings.')) return;
     
     try {
-      const res = await fetch(`http://localhost:5000/api/events/${eventId}`, {
+      const res = await fetch(apiUrl(`/api/events/${eventId}`), {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -115,8 +116,8 @@ export default function Dashboard({ user }) {
     }
 
     const url = editingEventId 
-      ? `http://localhost:5000/api/events/${editingEventId}` 
-      : 'http://localhost:5000/api/events';
+      ? apiUrl(`/api/events/${editingEventId}`) 
+      : apiUrl('/api/events');
       
     const method = editingEventId ? 'PUT' : 'POST';
 

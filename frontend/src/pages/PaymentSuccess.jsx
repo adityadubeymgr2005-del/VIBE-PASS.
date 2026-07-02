@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { apiUrl } from '../api';
 
 export default function PaymentSuccess() {
   const location = useLocation();
@@ -20,7 +21,7 @@ export default function PaymentSuccess() {
 
     const confirmBooking = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/payments/confirm-booking', {
+        const res = await fetch(apiUrl('/api/payments/confirm-booking'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

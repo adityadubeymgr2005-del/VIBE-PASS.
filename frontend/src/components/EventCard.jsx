@@ -1,5 +1,6 @@
 import React from 'react';
 import { Calendar, MapPin, Ticket } from 'lucide-react';
+import { getImageUrl } from '../api';
 
 export default function EventCard({ event, onClick, actionText = 'Get Tickets', isOrganizer = false }) {
   const { title, description, date, time, venue, ticketPrice, seatCapacity, seatsAvailable, bannerUrl } = event;
@@ -21,7 +22,7 @@ export default function EventCard({ event, onClick, actionText = 'Get Tickets', 
 
   const getFullBannerUrl = (url) => {
     if (!url) return 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=600&auto=format&fit=crop';
-    return url.startsWith('http') ? url : `http://localhost:5000${url}`;
+    return getImageUrl(url);
   };
 
   return (

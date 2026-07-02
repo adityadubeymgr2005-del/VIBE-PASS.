@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Ticket, Calendar, MapPin, QrCode, CheckCircle2, XCircle, ArrowRight, Download, RefreshCw } from 'lucide-react';
+import { apiUrl, getImageUrl } from '../api';
 
 export default function MyBookings() {
   const [bookings, setBookings] = useState([]);
@@ -17,7 +18,7 @@ export default function MyBookings() {
     try {
       setLoading(true);
       setError(null);
-      const res = await fetch('http://localhost:5000/api/bookings/my-bookings', {
+      const res = await fetch(apiUrl('/api/bookings/my-bookings'), {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -56,7 +57,7 @@ export default function MyBookings() {
 
   const getFullBannerUrl = (url) => {
     if (!url) return 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=600&auto=format&fit=crop';
-    return url.startsWith('http') ? url : `http://localhost:5000${url}`;
+    return getImageUrl(url);
   };
 
   return (

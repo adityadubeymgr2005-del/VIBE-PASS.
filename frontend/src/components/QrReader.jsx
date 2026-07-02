@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { QrCode, Scan, Keyboard, ShieldCheck, AlertTriangle, Loader2 } from 'lucide-react';
+import { apiUrl } from '../api';
 
 export default function QrReader({ onScanSuccess }) {
   const [method, setMethod] = useState('input'); // input, camera
@@ -16,7 +17,7 @@ export default function QrReader({ onScanSuccess }) {
     setScanResult(null);
 
     try {
-      const response = await fetch('http://localhost:5000/api/checkin/verify', {
+      const response = await fetch(apiUrl('/api/checkin/verify'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

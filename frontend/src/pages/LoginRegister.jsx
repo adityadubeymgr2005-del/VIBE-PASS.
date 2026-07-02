@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { User, Mail, Lock, Shield, Eye, EyeOff, Calendar } from 'lucide-react';
+import { apiUrl } from '../api';
 
 export default function LoginRegister({ type = 'login', onLoginSuccess }) {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ export default function LoginRegister({ type = 'login', onLoginSuccess }) {
       : { name, email, password, role };
 
     try {
-      const response = await fetch(`http://localhost:5000/api/auth/${endpoint}`, {
+      const response = await fetch(apiUrl(`/api/auth/${endpoint}`), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CreditCard, Wallet, Smartphone, Landmark, CheckCircle, Loader2 } from 'lucide-react';
+import { apiUrl } from '../api';
 
 export default function PaymentModal({ isOpen, onClose, amount, eventId, ticketQuantity, onPaymentSuccess }) {
   if (!isOpen) return null;
@@ -21,7 +22,7 @@ export default function PaymentModal({ isOpen, onClose, amount, eventId, ticketQ
     setPaymentError('');
 
     try {
-      const res = await fetch('http://localhost:5000/api/payments/create-checkout-session', {
+      const res = await fetch(apiUrl('/api/payments/create-checkout-session'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

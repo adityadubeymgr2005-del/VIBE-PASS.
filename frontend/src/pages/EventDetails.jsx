@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Calendar, Clock, MapPin, DollarSign, Users, ArrowLeft, Plus, Minus, Ticket, AlertCircle } from 'lucide-react';
 import PaymentModal from '../components/PaymentModal';
+import { apiUrl, getImageUrl } from '../api';
 
 export default function EventDetails({ user }) {
   const { id } = useParams();
@@ -23,7 +24,7 @@ export default function EventDetails({ user }) {
   const fetchEventDetails = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`http://localhost:5000/api/events/${id}`);
+      const res = await fetch(apiUrl(`/api/events/${id}`));
       if (!res.ok) throw new Error('Event not found');
       const data = await res.json();
       setEvent(data);
@@ -66,7 +67,7 @@ export default function EventDetails({ user }) {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:5000/api/bookings', {
+      const res = await fetch(apiUrl('/api/bookings'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -100,7 +101,7 @@ export default function EventDetails({ user }) {
 
   const getFullBannerUrl = (url) => {
     if (!url) return 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=1200&auto=format&fit=crop';
-    return url.startsWith('http') ? url : `http://localhost:5000${url}`;
+    return getImageUrl(url);
   };
 
   if (loading && !event) {
